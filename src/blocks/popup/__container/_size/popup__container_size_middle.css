@@ -1,0 +1,13 @@
+.popup__container_size_middle {
+  max-width: 240px;
+  min-height: 258px;
+  padding: 30px 20px;
+}
+
+@media screen and (min-width: 600px) {
+  .popup__container_size_middle {
+      max-width: 430px;
+      min-height: 330px;
+      padding: 35px;
+  }
+}

@@ -1,0 +1,9 @@
+.popup__container_size_content {
+  min-height: initial;
+}
+
+@media screen and (min-width: 600px) {
+  .popup__container_size_content {
+      min-height: initial;
+  }
+}

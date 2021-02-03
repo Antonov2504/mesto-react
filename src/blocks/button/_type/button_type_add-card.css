@@ -1,0 +1,21 @@
+.button_type_add-card {
+  width: 100%;
+  height: 50px;
+  background-image: url('./../../../images/icons/add.svg');
+  background-size: 16px;
+  border: 2px solid #FFFFFF;
+  border-radius: 2px;
+}
+
+@media screen and (min-width: 600px) {
+  .button_type_add-card {
+    width: 50px;
+    background-size: 22px;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .button_type_add-card {
+    width: 150px;
+  }
+}

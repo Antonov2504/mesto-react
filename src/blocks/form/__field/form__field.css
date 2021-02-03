@@ -1,0 +1,9 @@
+.form__field {
+  display: block;
+  margin: 0 0 23px;
+  position: relative;
+}
+
+.form__field:last-of-type {
+  margin: 0 0 49px;
+}

@@ -1,0 +1,30 @@
+.page__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-width: 282px;
+  min-height: 100vh;
+  width: calc(100% - 19px * 2);
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 600px) {
+  .page__container {
+    width: calc(100% - 30px * 2);
+    align-items: stretch;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .page__container {
+    width: calc(100% - 100px * 2);
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .page__container {
+    width: calc(100% - 200px * 2);
+    max-width: 880px;
+  }
+}

@@ -1,0 +1,14 @@
+.button_type_edit-profile {
+  width: 18px;
+  height: 18px;
+  background-image: url('./../../../images/icons/pencil.svg');
+  background-size: 8px;
+}
+
+@media screen and (min-width: 600px) {
+  .button_type_edit-profile {
+    width: 24px;
+    height: 24px;
+    background-size: 10px;
+  }
+}

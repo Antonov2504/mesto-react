@@ -1,0 +1,11 @@
+.button_type_remove-card {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  background-image: url('./../../../images/icons/trash.svg');
+  background-size: contain;
+  border: 0;
+  position: absolute;
+  top: 5%;
+  right: 5%;
+}

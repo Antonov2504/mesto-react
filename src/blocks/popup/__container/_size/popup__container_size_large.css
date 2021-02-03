@@ -1,0 +1,7 @@
+.popup__container_size_large {
+  width: fit-content;
+  max-width: 75vw;
+  padding: 0;
+  background-color: transparent;
+  color: white;
+}

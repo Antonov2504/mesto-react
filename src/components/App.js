@@ -1,32 +1,15 @@
-import logo from './images/header__logo.svg';
+import React from 'react';
+import Header from './Header';
+import Main from './Main';
+import Footer from './Footer';
 
 function App() {
   return (
     <div className="page__container">
-      <header className="header">
-        <img src={logo} alt="Место в России" className="header__logo" />
-      </header>
-      <main className="content">
-        <section className="profile">
-          <div className="profile__about">
-            <div className="profile__avatar">
-              <img src="#" alt="Имя пользователя" className="profile__avatar-img" />
-            </div>
-            <div className="profile__description">
-              <h1 className="profile__name"></h1>
-              <button type="button" className="button button_type_edit-profile"></button>
-              <p className="profile__job"></p>
-            </div>
-          </div>
-          <button type="button" className="button button_type_add-card"></button>
-        </section>
-        <section className="elements">
-          <ul className="cards"></ul>
-        </section>
-      </main>
-      <footer className="footer">
-        <p className="footer__text">&COPY; 2020 Mesto Russia</p>
-      </footer>
+      <Header />
+      <Main />
+      <Footer />
+
       {/* <!-- Попап редактировать профиль --> */}
       <div className="popup popup_type_edit-profile">
         <div className="popup__container">

@@ -1,9 +1,0 @@
-.popup__heading_type_add-card {
-  margin: 0 0 25px;
-}
-
-@media screen and (min-width: 600px) {
-  .popup__heading_type_add-card {
-    margin: 0 0 39px;
-  }
-}

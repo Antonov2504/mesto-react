@@ -1,21 +1,66 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
+import PopupWithForm from './PopupWithForm';
+import ImagePopup from './ImagePopup';
 
 function App() {
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+
+  function handleEditAvatarClick() {
+    setIsEditAvatarPopupOpen(true);
+  }
+
+  function handleEditProfileClick() {
+    setIsEditProfilePopupOpen(true);
+  }
+
+  function handleAddPlaceClick() {
+    setIsAddPlacePopupOpen(true);
+  }
+
+  function closeAllPopups() {
+    setIsEditAvatarPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+  }
+
+  useEffect(() => {
+    function handleEscClose(evt) {
+      if (evt.key === 'Escape') {
+        console.log('esc');
+        closeAllPopups();
+      };
+    }
+
+    (isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen) && document.addEventListener('keydown', handleEscClose);
+
+    return () => {
+      document.removeEventListener('keydown', handleEscClose);
+    }
+  }, [isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen]);
+
   return (
     <div className="page__container">
       <Header />
-      <Main />
+      <Main
+        onEditAvatar={handleEditAvatarClick}
+        onEditProfile={handleEditProfileClick}
+        onAddPlace={handleAddPlaceClick}
+      />
       <Footer />
 
       {/* <!-- Попап редактировать профиль --> */}
-      <div className="popup popup_type_edit-profile">
-        <div className="popup__container">
-          <button type="button" className="button button_type_close-popup"></button>
-          <form action="#" name="edit-profile" className="form" noValidate>
-            <h2 className="popup__heading">Редактировать профиль</h2>
+      <PopupWithForm
+        isOpened={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
+        name="edit-profile"
+        title="Редактировать профиль"
+        children={
+          <>
             <label className="form__field">
               <input type="text"
                 name="profile-name"
@@ -41,15 +86,17 @@ function App() {
               <span className="form__input-error profile-job-input-error"></span>
             </label>
             <button type="submit" className="button button_type_submit">Сохранить</button>
-          </form>
-        </div>
-      </div>
+          </>
+        }
+      />
       {/* <!-- Попап добавить карточку --> */}
-      <div className="popup popup_type_add-card">
-        <div className="popup__container popup__container_size_middle">
-          <button type="button" className="button button_type_close-popup"></button>
-          <form action="#" name="add-card" className="form" noValidate>
-            <h2 className="popup__heading popup__heading_type_add-card">Новое место</h2>
+      <PopupWithForm
+        isOpened={isAddPlacePopupOpen}
+        onClose={closeAllPopups}
+        name="add-card"
+        title="Новое место"
+        children={
+          <>
             <label className="form__field">
               <input type="text"
                 name="card-name"
@@ -73,33 +120,30 @@ function App() {
               <span className="form__input-error card-link-input-error"></span>
             </label>
             <button type="submit" className="button button_type_submit">Создать</button>
-          </form>
-        </div>
-      </div>
+          </>
+        }
+      />
       {/* <!-- Попап картинка --> */}
-      <div className="popup popup_type_show-card">
-        <div className="popup__container popup__container_size_large">
-          <button type="button" className="button button_type_close-popup"></button>
-          <figure className="popup__figure">
-            <img src="#" alt="#" className="popup__image" />
-            <figcaption className="popup__caption"></figcaption>
-          </figure>
-        </div>
-      </div>
+      <ImagePopup />
       {/* <!-- Попап удаления карточки --> */}
-      <div className="popup popup_type_delete-card">
-        <div className="popup__container popup__container_size_content">
-          <button type="button" className="button button_type_close-popup"></button>
-          <h2 className="popup__heading">Вы уверены?</h2>
-          <button type="button" className="button button_type_submit">Да</button>
-        </div>
-      </div>
+      <PopupWithForm
+        name="delete-card"
+        title="Вы уверены?"
+        children={
+          <>
+            <button type="button" className="button button_type_submit">Нет</button>
+          </>
+        }
+      />
+
       {/* <!-- Попап обновить аватар --> */}
-      <div className="popup popup_type_update-avatar">
-        <div className="popup__container popup__container_size_content">
-          <button type="button" className="button button_type_close-popup"></button>
-          <form action="#" name="update-avatar" className="form" noValidate>
-            <h2 className="popup__heading">Обновить аватар</h2>
+      <PopupWithForm
+        isOpened={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
+        name="update-avatar"
+        title="Обновить аватар"
+        children={
+          <>
             <label className="form__field">
               <input type="url"
                 name="avatar-link"
@@ -111,9 +155,9 @@ function App() {
               <span className="form__input-error avatar-link-input-error"></span>
             </label>
             <button type="submit" className="button button_type_submit">Сохранить</button>
-          </form>
-        </div>
-      </div>
+          </>
+        }
+      />
     </div>
   );
 }

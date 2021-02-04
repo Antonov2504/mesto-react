@@ -1,5 +1,4 @@
-import handleOriginalResponse from './../utils/utils.js';
-
+import handleOriginalResponse from './utils.js';
 class Api {
   constructor(options) {
     this.baseUrl = options.baseUrl;

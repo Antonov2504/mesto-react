@@ -9,6 +9,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -26,22 +27,26 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setSelectedCard(null);
+  }
+
+  function handleCardClick(card) {
+    setSelectedCard(card);
   }
 
   useEffect(() => {
     function handleEscClose(evt) {
       if (evt.key === 'Escape') {
-        console.log('esc');
         closeAllPopups();
       };
     }
 
-    (isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen) && document.addEventListener('keydown', handleEscClose);
+    (isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || selectedCard) && document.addEventListener('keydown', handleEscClose);
 
     return () => {
       document.removeEventListener('keydown', handleEscClose);
     }
-  }, [isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen]);
+  }, [isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, selectedCard]);
 
   return (
     <div className="page__container">
@@ -50,6 +55,7 @@ function App() {
         onEditAvatar={handleEditAvatarClick}
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
+        onCardClick={handleCardClick}
       />
       <Footer />
 
@@ -124,9 +130,13 @@ function App() {
         }
       />
       {/* <!-- Попап картинка --> */}
-      <ImagePopup />
+      <ImagePopup
+        onClose={closeAllPopups}
+        card={selectedCard}
+      />
       {/* <!-- Попап удаления карточки --> */}
       <PopupWithForm
+        onClose={closeAllPopups}
         name="delete-card"
         title="Вы уверены?"
         children={

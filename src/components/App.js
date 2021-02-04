@@ -65,70 +65,64 @@ function App() {
         onClose={closeAllPopups}
         name="edit-profile"
         title="Редактировать профиль"
-        children={
-          <>
-            <label className="form__field">
-              <input type="text"
-                name="profile-name"
-                id="profile-name-input"
-                placeholder="Имя"
-                className="form__input form__input_el_profile-name"
-                required
-                minLength="2"
-                maxLength="40"
-                autoComplete="off" />
-              <span className="form__input-error profile-name-input-error"></span>
-            </label>
-            <label className="form__field">
-              <input type="text"
-                name="profile-job"
-                id="profile-job-input"
-                placeholder="Вид деятельности"
-                className="form__input form__input_el_profile-job"
-                required
-                minLength="2"
-                maxLength="200"
-                autoComplete="off" />
-              <span className="form__input-error profile-job-input-error"></span>
-            </label>
-            <button type="submit" className="button button_type_submit">Сохранить</button>
-          </>
-        }
-      />
+      >
+        <label className="form__field">
+          <input type="text"
+            name="profile-name"
+            id="profile-name-input"
+            placeholder="Имя"
+            className="form__input form__input_el_profile-name"
+            required
+            minLength="2"
+            maxLength="40"
+            autoComplete="off" />
+          <span className="form__input-error profile-name-input-error"></span>
+        </label>
+        <label className="form__field">
+          <input type="text"
+            name="profile-job"
+            id="profile-job-input"
+            placeholder="Вид деятельности"
+            className="form__input form__input_el_profile-job"
+            required
+            minLength="2"
+            maxLength="200"
+            autoComplete="off" />
+          <span className="form__input-error profile-job-input-error"></span>
+        </label>
+        <button type="submit" className="button button_type_submit">Сохранить</button>
+      </PopupWithForm>
       {/* <!-- Попап добавить карточку --> */}
       <PopupWithForm
         isOpened={isAddPlacePopupOpen}
         onClose={closeAllPopups}
         name="add-card"
         title="Новое место"
-        children={
-          <>
-            <label className="form__field">
-              <input type="text"
-                name="card-name"
-                id="card-name-input"
-                className="form__input form__input_size_small form__input_el_card-name"
-                placeholder="Название"
-                required
-                minLength="2"
-                maxLength="30"
-                autoComplete="off" />
-              <span className="form__input-error card-name-input-error"></span>
-            </label>
-            <label className="form__field">
-              <input type="url"
-                name="card-link"
-                id="card-link-input"
-                className="form__input form__input_size_small form__input_el_card-link"
-                placeholder="Ссылка на картинку"
-                required
-                autoComplete="off" />
-              <span className="form__input-error card-link-input-error"></span>
-            </label>
-            <button type="submit" className="button button_type_submit">Создать</button>
-          </>
-        }
-      />
+      >
+        <label className="form__field">
+          <input type="text"
+            name="card-name"
+            id="card-name-input"
+            className="form__input form__input_size_small form__input_el_card-name"
+            placeholder="Название"
+            required
+            minLength="2"
+            maxLength="30"
+            autoComplete="off" />
+          <span className="form__input-error card-name-input-error"></span>
+        </label>
+        <label className="form__field">
+          <input type="url"
+            name="card-link"
+            id="card-link-input"
+            className="form__input form__input_size_small form__input_el_card-link"
+            placeholder="Ссылка на картинку"
+            required
+            autoComplete="off" />
+          <span className="form__input-error card-link-input-error"></span>
+        </label>
+        <button type="submit" className="button button_type_submit">Создать</button>
+      </PopupWithForm>
       {/* <!-- Попап картинка --> */}
       <ImagePopup
         onClose={closeAllPopups}
@@ -139,12 +133,9 @@ function App() {
         onClose={closeAllPopups}
         name="delete-card"
         title="Вы уверены?"
-        children={
-          <>
-            <button type="button" className="button button_type_submit">Нет</button>
-          </>
-        }
-      />
+      >
+        <button type="button" className="button button_type_submit">Нет</button>
+      </PopupWithForm>
 
       {/* <!-- Попап обновить аватар --> */}
       <PopupWithForm
@@ -152,22 +143,19 @@ function App() {
         onClose={closeAllPopups}
         name="update-avatar"
         title="Обновить аватар"
-        children={
-          <>
-            <label className="form__field">
-              <input type="url"
-                name="avatar-link"
-                id="avatar-link-input"
-                className="form__input form__input_size_small form__input_el_avatar-link"
-                placeholder="Ссылка на аватар"
-                required
-                autoComplete="off" />
-              <span className="form__input-error avatar-link-input-error"></span>
-            </label>
-            <button type="submit" className="button button_type_submit">Сохранить</button>
-          </>
-        }
-      />
+      >
+        <label className="form__field">
+          <input type="url"
+            name="avatar-link"
+            id="avatar-link-input"
+            className="form__input form__input_size_small form__input_el_avatar-link"
+            placeholder="Ссылка на аватар"
+            required
+            autoComplete="off" />
+          <span className="form__input-error avatar-link-input-error"></span>
+        </label>
+        <button type="submit" className="button button_type_submit">Сохранить</button>
+      </PopupWithForm>
     </div>
   );
 }

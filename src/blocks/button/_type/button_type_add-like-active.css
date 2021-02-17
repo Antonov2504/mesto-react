@@ -1,3 +1,8 @@
 .button_type_add-like-active {
+  width: 21px;
+  height: 18px;
+  padding: 0;
   background-image: url('./../../../images/icons/heart_active.svg');
+  background-size: contain;
+  border: 0;
 }

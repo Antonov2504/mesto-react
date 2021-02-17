@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
+import EditProfilePopup from './EditProfilePopup';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
@@ -13,7 +14,7 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);        // Стейт попап добавить карточку открыт
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);    // Стейт попап редактирования аватара открыт
   const [selectedCard, setSelectedCard] = useState(null);                       // Стейт выбранная карточка для передачи картинки карточки в попап
-  const [currentUser, setCurrentUser] = useState({ avatar: avatarDefault });    // Стейт данные текущего пользователя
+  const [currentUser, setCurrentUser] = useState({ name: '', about: '', avatar: avatarDefault });    // Стейт данные текущего пользователя
 
   // Обработчик клика по аватару
   function handleEditAvatarClick() {
@@ -41,6 +42,14 @@ function App() {
   // Обработчик клика по картинке карточки
   function handleCardClick(card) {
     setSelectedCard(card);
+  }
+
+  function handleUpdateUser(userInfo) {
+    api.editProfile(userInfo)
+      .then(data => {
+        setCurrentUser({ ...data });
+        closeAllPopups();
+      })
   }
 
   // Добавить/удалить слушателя нажатия Esc при открытии попапа
@@ -80,38 +89,11 @@ function App() {
         <Footer />
 
         {/* <!-- Попап редактировать профиль --> */}
-        <PopupWithForm
-          isOpened={isEditProfilePopupOpen}
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-          name="edit-profile"
-          title="Редактировать профиль"
-        >
-          <label className="form__field">
-            <input type="text"
-              name="profile-name"
-              id="profile-name-input"
-              placeholder="Имя"
-              className="form__input form__input_el_profile-name"
-              required
-              minLength="2"
-              maxLength="40"
-              autoComplete="off" />
-            <span className="form__input-error profile-name-input-error"></span>
-          </label>
-          <label className="form__field">
-            <input type="text"
-              name="profile-job"
-              id="profile-job-input"
-              placeholder="Вид деятельности"
-              className="form__input form__input_el_profile-job"
-              required
-              minLength="2"
-              maxLength="200"
-              autoComplete="off" />
-            <span className="form__input-error profile-job-input-error"></span>
-          </label>
-          <button type="submit" className="button button_type_submit">Сохранить</button>
-        </PopupWithForm>
+          onUpdateUser={handleUpdateUser}
+        />
         {/* <!-- Попап добавить карточку --> */}
         <PopupWithForm
           isOpened={isAddPlacePopupOpen}

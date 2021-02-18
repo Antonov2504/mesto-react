@@ -5,7 +5,7 @@ import Footer from './Footer';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
-import PopupWithForm from './PopupWithForm';
+import ConfirmationPopup from './ConfirmationPopup';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
@@ -15,8 +15,14 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);                       // Стейт попап редактирования профиля открыт
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);                             // Стейт попап добавить карточку открыт
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);                         // Стейт попап редактирования аватара открыт
+  const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false);                     // Стейт попап подтверждения удаления карточки открыт
   const [selectedCard, setSelectedCard] = useState(null);                                            // Стейт выбранная карточка для передачи картинки карточки в попап
-  const [currentUser, setCurrentUser] = useState({ name: '', about: '', avatar: avatarDefault });    // Стейт данные текущего пользователя
+  const [deletedCard, setDeletedCard] = useState(null);                                              // Стейт выбранная карточка для удаления
+  const [currentUser, setCurrentUser] = useState({                                                   // Стейт данные текущего пользователя
+    name: '',
+    about: '',
+    avatar: avatarDefault
+  });
   const [cards, setCards] = useState([]);                                                            // Стейт массив карточек
 
   // Обработчик клика по аватару
@@ -34,11 +40,18 @@ function App() {
     setIsAddPlacePopupOpen(true);
   }
 
+  // Обработчик клика по кнопке удалить карточку
+  function handleCardDelete(card) {
+    setIsConfirmationPopupOpen(true);
+    setDeletedCard(card);
+  }
+
   // Функция закрытия всех попапов
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setIsConfirmationPopupOpen(false);
     setSelectedCard(null);
   }
 
@@ -75,11 +88,12 @@ function App() {
       .catch(err => console.log(err));
   }
 
-  function handleCardDelete(card) {
-    api.deleteCard(card._id)
+  function handleCardDeleteSubmit(cardId) {
+    api.deleteCard(cardId)
       .then(() => {
-        const newCards = cards.filter(c => c._id !== card._id);
+        const newCards = cards.filter(c => c._id !== cardId);
         setCards(newCards);
+        closeAllPopups();
       })
       .catch(err => console.log(err));
   }
@@ -110,12 +124,12 @@ function App() {
       };
     }
 
-    (isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || selectedCard) && document.addEventListener('keydown', handleEscClose);
+    (isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || isConfirmationPopupOpen || selectedCard) && document.addEventListener('keydown', handleEscClose);
 
     return () => {
       document.removeEventListener('keydown', handleEscClose);
     }
-  }, [isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, selectedCard]);
+  }, [isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, isConfirmationPopupOpen, selectedCard]);
 
   // Загрузка данных пользователя
   useEffect(() => {
@@ -158,13 +172,12 @@ function App() {
           card={selectedCard}
         />
         {/* <!-- Попап удаления карточки --> */}
-        <PopupWithForm
+        <ConfirmationPopup
+          isOpen={isConfirmationPopupOpen}
           onClose={closeAllPopups}
-          name="delete-card"
-          title="Вы уверены?"
-        >
-          <button type="button" className="button button_type_submit">Нет</button>
-        </PopupWithForm>
+          onCardDelete={handleCardDeleteSubmit}
+          card={deletedCard}
+        />
 
         {/* <!-- Попап обновить аватар --> */}
         <EditAvatarPopup

@@ -4,6 +4,7 @@ import Main from './Main';
 import Footer from './Footer';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
@@ -16,6 +17,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);                         // Стейт попап редактирования аватара открыт
   const [selectedCard, setSelectedCard] = useState(null);                                            // Стейт выбранная карточка для передачи картинки карточки в попап
   const [currentUser, setCurrentUser] = useState({ name: '', about: '', avatar: avatarDefault });    // Стейт данные текущего пользователя
+  const [cards, setCards] = useState([]);                                                            // Стейт массив карточек
 
   // Обработчик клика по аватару
   function handleEditAvatarClick() {
@@ -63,6 +65,43 @@ function App() {
       .catch(err => console.log(err));
   }
 
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    api.changeLikeCardStatus(card._id, !isLiked)
+      .then(newCard => {
+        const newCards = cards.map(c => c._id === card._id ? newCard : c);
+        setCards(newCards);
+      })
+      .catch(err => console.log(err));
+  }
+
+  function handleCardDelete(card) {
+    api.deleteCard(card._id)
+      .then(() => {
+        const newCards = cards.filter(c => c._id !== card._id);
+        setCards(newCards);
+      })
+      .catch(err => console.log(err));
+  }
+
+  function handleAddPlaceSubmit(cardInfo) {
+    api.addCard(cardInfo)
+      .then(newCard => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
+      .catch(err => console.log(err));
+  }
+
+  // Загрузка карточек по умолчанию
+  useEffect(() => {
+    api.getInitialCards()
+      .then(initialCards => {
+        setCards(initialCards);
+      })
+      .catch(err => console.log(err));
+  }, []);
+
   // Добавить/удалить слушателя нажатия Esc при открытии попапа
   useEffect(() => {
     function handleEscClose(evt) {
@@ -96,9 +135,11 @@ function App() {
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onCardClick={handleCardClick}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
+          cards={cards}
         />
         <Footer />
-
         {/* <!-- Попап редактировать профиль --> */}
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
@@ -106,36 +147,11 @@ function App() {
           onUpdateUser={handleUpdateUser}
         />
         {/* <!-- Попап добавить карточку --> */}
-        <PopupWithForm
-          isOpened={isAddPlacePopupOpen}
+        <AddPlacePopup
+          isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
-          name="add-card"
-          title="Новое место"
-        >
-          <label className="form__field">
-            <input type="text"
-              name="card-name"
-              id="card-name-input"
-              className="form__input form__input_size_small form__input_el_card-name"
-              placeholder="Название"
-              required
-              minLength="2"
-              maxLength="30"
-              autoComplete="off" />
-            <span className="form__input-error card-name-input-error"></span>
-          </label>
-          <label className="form__field">
-            <input type="url"
-              name="card-link"
-              id="card-link-input"
-              className="form__input form__input_size_small form__input_el_card-link"
-              placeholder="Ссылка на картинку"
-              required
-              autoComplete="off" />
-            <span className="form__input-error card-link-input-error"></span>
-          </label>
-          <button type="submit" className="button button_type_submit">Создать</button>
-        </PopupWithForm>
+          onAddPlace={handleAddPlaceSubmit}
+        />
         {/* <!-- Попап картинка --> */}
         <ImagePopup
           onClose={closeAllPopups}

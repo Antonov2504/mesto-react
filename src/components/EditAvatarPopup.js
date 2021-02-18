@@ -9,7 +9,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
     onUpdateAvatar({
       avatar: inputAvatar.current.value
     });
-    setTimeout(() => { inputAvatar.current.value = '' }, 1000);
+    inputAvatar.current.value = '';
   }
 
   return (

@@ -3,6 +3,7 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
@@ -10,10 +11,10 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import avatarDefault from './../images/profile__avatar.svg';
 
 function App() {
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);  // Стейт попап редактирования профиля открыт
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);        // Стейт попап добавить карточку открыт
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);    // Стейт попап редактирования аватара открыт
-  const [selectedCard, setSelectedCard] = useState(null);                       // Стейт выбранная карточка для передачи картинки карточки в попап
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);                       // Стейт попап редактирования профиля открыт
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);                             // Стейт попап добавить карточку открыт
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);                         // Стейт попап редактирования аватара открыт
+  const [selectedCard, setSelectedCard] = useState(null);                                            // Стейт выбранная карточка для передачи картинки карточки в попап
   const [currentUser, setCurrentUser] = useState({ name: '', about: '', avatar: avatarDefault });    // Стейт данные текущего пользователя
 
   // Обработчик клика по аватару
@@ -50,6 +51,16 @@ function App() {
         setCurrentUser({ ...data });
         closeAllPopups();
       })
+      .catch(err => console.log(err));
+  }
+
+  function handleUpdateAvatar({ avatar }) {
+    api.updateAvatar(avatar)
+      .then(data => {
+        setCurrentUser({ ...data });
+        closeAllPopups();
+      })
+      .catch(err => console.log(err));
   }
 
   // Добавить/удалить слушателя нажатия Esc при открытии попапа
@@ -140,24 +151,11 @@ function App() {
         </PopupWithForm>
 
         {/* <!-- Попап обновить аватар --> */}
-        <PopupWithForm
-          isOpened={isEditAvatarPopupOpen}
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-          name="update-avatar"
-          title="Обновить аватар"
-        >
-          <label className="form__field">
-            <input type="url"
-              name="avatar-link"
-              id="avatar-link-input"
-              className="form__input form__input_size_small form__input_el_avatar-link"
-              placeholder="Ссылка на аватар"
-              required
-              autoComplete="off" />
-            <span className="form__input-error avatar-link-input-error"></span>
-          </label>
-          <button type="submit" className="button button_type_submit">Сохранить</button>
-        </PopupWithForm>
+          onUpdateAvatar={handleUpdateAvatar}
+        />
       </div>
     </CurrentUserContext.Provider>
   );

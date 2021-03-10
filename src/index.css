@@ -2,6 +2,12 @@
 @import url('./vendor/fonts/fonts.css');
 @import url('./blocks/page/page.css');
 @import url('./blocks/page/__container/page__container.css');
+@import url('./blocks/preloader/preloader.css');
+@import url('./blocks/preloader/_type/preloader_type_text.css');
+@import url('./blocks/preloader/_type/preloader_type_text-long.css');
+@import url('./blocks/preloader/_type/preloader_type_text-short.css');
+@import url('./blocks/preloader/_type/preloader_type_image.css');
+@import url('./blocks/preloader/_hidden/preloader_hidden.css');
 @import url('./blocks/button/button.css');
 @import url('./blocks/button/_type/button_type_edit-profile.css');
 @import url('./blocks/button/_type/button_type_add-card.css');

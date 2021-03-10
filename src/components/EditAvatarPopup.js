@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import PopupWithForm from './PopupWithForm';
 
-function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
+function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoadingButtonText }) {
   const inputAvatar = useRef();
 
   function handleSubmit(evt) {
@@ -31,7 +31,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
           autoComplete="off" />
         <span className="form__input-error avatar-link-input-error"></span>
       </label>
-      <button type="submit" className="button button_type_submit">Сохранить</button>
+      <button type="submit" className="button button_type_submit">{isLoadingButtonText ? 'Сохранение...' : 'Сохранить'}</button>
     </PopupWithForm>
   );
 }

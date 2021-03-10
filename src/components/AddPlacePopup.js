@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PopupWithForm from './PopupWithForm';
 
-function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
+function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoadingButtonText }) {
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
 
@@ -57,7 +57,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
           autoComplete="off" />
         <span className="form__input-error card-link-input-error"></span>
       </label>
-      <button type="submit" className="button button_type_submit">Создать</button>
+      <button type="submit" className="button button_type_submit">{isLoadingButtonText ? 'Сохранение...' : 'Создать'}</button>
     </PopupWithForm>
   );
 }

@@ -69,14 +69,6 @@ class Api {
     }
   }
 
-  // addLike(cardId) {
-
-  // }
-
-  // deleteLike(cardId) {
-
-  // }
-
   updateAvatar(avatarLink) {
     return fetch(`${this.baseUrl}/users/me/avatar`, {
       method: 'PATCH',

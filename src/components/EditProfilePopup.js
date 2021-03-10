@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import PopupWithForm from './PopupWithForm';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-function EditProfilePopup(props) {
+function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoadingButtonText }) {
   const currentUser = useContext(CurrentUserContext);
   const [name, setName] = useState(currentUser.name);
   const [description, setDescription] = useState(currentUser.about);
@@ -17,7 +17,7 @@ function EditProfilePopup(props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    props.onUpdateUser({
+    onUpdateUser({
       name,
       about: description
     });
@@ -30,8 +30,8 @@ function EditProfilePopup(props) {
 
   return (
     <PopupWithForm
-      isOpened={props.isOpen}
-      onClose={props.onClose}
+      isOpened={isOpen}
+      onClose={onClose}
       onSubmit={handleSubmit}
       name="edit-profile"
       title="Редактировать профиль"
@@ -64,7 +64,7 @@ function EditProfilePopup(props) {
           autoComplete="off" />
         <span className="form__input-error profile-job-input-error"></span>
       </label>
-      <button type="submit" className="button button_type_submit">Сохранить</button>
+      <button type="submit" className="button button_type_submit">{isLoadingButtonText ? 'Сохранение...' : 'Сохранить'}</button>
     </PopupWithForm>
   );
 }

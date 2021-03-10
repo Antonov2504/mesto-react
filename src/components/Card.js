@@ -18,7 +18,6 @@ function Card(props) {
 
   function handleImageClick() {
     props.onCardClick(props.card);
-    console.log(props.card);
   }
 
   function handleLikeClick() {
